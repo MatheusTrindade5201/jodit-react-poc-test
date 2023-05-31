@@ -46,7 +46,7 @@ const buttons = [
   {
     name: "insertMergeField",
     tooltip: "Insert Merge Field",
-    iconURL: "src/assets/react.svg",
+    iconURL: "/react.svg",
     popup: (editor: {
       create: { div: (arg0: string) => any };
       s: { insertHTML: (arg0: string) => void };
