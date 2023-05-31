@@ -1,43 +1,8 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "jodit";
 import JoditEditor from "jodit-react";
+import { useState } from "react";
 
-const copyStringToClipboard = function (str) {
-  var el = document.createElement("textarea");
-  el.value = str;
-  el.setAttribute("readonly", "");
-  el.style = { position: "absolute", left: "-9999px" };
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand("copy");
-  document.body.removeChild(el);
-};
-
-const facilityMergeFields = [
-  "FacilityNumber",
-  "FacilityName",
-  "Address",
-  "MapCategory",
-  "Latitude",
-  "Longitude",
-  "ReceivingPlant",
-  "TrunkLine",
-  "SiteElevation",
-];
-const inspectionMergeFields = ["InspectionCompleteDate", "InspectionEventType"];
-const createOptionGroupElement = (mergeFields, optionGrouplabel) => {
-  let optionGroupElement = document.createElement("optgroup");
-  optionGroupElement.setAttribute("label", optionGrouplabel);
-  for (let index = 0; index < mergeFields.length; index++) {
-    let optionElement = document.createElement("option");
-    optionElement.setAttribute("class", "merge-field-select-option");
-    optionElement.setAttribute("value", mergeFields[index]);
-    optionElement.text = mergeFields[index];
-    optionGroupElement.appendChild(optionElement);
-  }
-  return optionGroupElement;
-};
 const buttons = [
   "undo",
   "redo",
@@ -82,7 +47,10 @@ const buttons = [
     name: "insertMergeField",
     tooltip: "Insert Merge Field",
     iconURL: "src/assets/react.svg",
-    popup: (editor, current, self, close) => {
+    popup: (editor: {
+      create: { div: (arg0: string) => any };
+      s: { insertHTML: (arg0: string) => void };
+    }) => {
       /* function onSelected(e) {
         let mergeField = e.target.value;
         if (mergeField) {
@@ -92,9 +60,9 @@ const buttons = [
           );
         }
       } */
-      let divElement = editor.create.div("merge-field-popup");
+      const divElement = editor.create.div("merge-field-popup");
 
-      let widthInput = document.createElement("input");
+      const widthInput = document.createElement("input");
       widthInput.setAttribute("id", "width-field");
       widthInput.setAttribute("type", "number");
       const widthLabelElement = document.createElement("label");
@@ -106,22 +74,22 @@ const buttons = [
       const heightInput = document.createElement("input");
       heightInput.setAttribute("type", "number");
       heightInput.setAttribute("id", "height-field");
-      let heightLabelElement = document.createElement("label");
+      const heightLabelElement = document.createElement("label");
       heightLabelElement.setAttribute("for", "height-field");
       heightLabelElement.innerHTML = "height: ";
       divElement.appendChild(heightLabelElement);
       divElement.appendChild(heightInput);
 
-      let colorInput = document.createElement("input");
+      const colorInput = document.createElement("input");
       colorInput.setAttribute("type", "color");
       colorInput.setAttribute("id", "color-field");
-      let labelElement = document.createElement("label");
+      const labelElement = document.createElement("label");
       labelElement.setAttribute("for", "color-field");
       labelElement.innerHTML = "color: ";
       divElement.appendChild(labelElement);
 
       divElement.appendChild(colorInput);
-      let buttonPlugin = document.createElement("button");
+      const buttonPlugin = document.createElement("button");
       buttonPlugin.innerHTML = "Criar";
       buttonPlugin.addEventListener("click", () => {
         editor.s.insertHTML(
